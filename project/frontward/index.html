@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>YOLO 物体识别网站</title>
+        <style>
+            body { font-family: sans-serif; text-align: center; margin-top: 40px;}
+            img { max-width: 80%; margin-top: 20px; border: 1px solid #ccc;}
+        </style>
+    </head>
+    <body>
+        <h1>上传图片进行物体识别</h1>
+        <input type="file" id="fileInput" accept="image/*">
+        <button onclick="upload()">识别图片</button>
+        
+        <div id="result"></div>
+        <img id="output" style="display:none"/>
+
+        <script src="config.js"></script>
+        <script>
+            async function upload() {
+                const fileInput = document.getElementById("fileInput");
+                const file = fileInput.files[0];
+                if (!file){
+                    alert("请先选择图片文件");
+                    return;
+                }
+                const formData = new FormData();
+                formData.append('file',file);
+
+                document.getElementById('result').innerText = '识别中...';
+
+                const response = await fetch(`${window.SERVER_IP}/predict/`,{
+                    method:'POST',
+                    body: formData,
+                });
+                const data = await response.json();
+
+                document.getElementById('result').innerText = JSON.stringify(data.detections,null,2);
+                document.getElementById('output').src = `${window.SERVER_IP}/${data.result_image}`;
+                document.getElementById('output').style.display = 'block';
+            }
+        </script>
+    </body>
+</html>
