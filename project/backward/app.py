@@ -17,7 +17,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="./project/static"), name="static")
 # 从 project/model 模块加载 YOLO 模型
 model = get_model()
-
+# 中间件
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],    # 你也可以换成具体来源，例如 http://localhost:8000
