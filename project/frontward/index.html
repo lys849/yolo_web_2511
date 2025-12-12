@@ -30,15 +30,27 @@
 
                 document.getElementById('result').innerText = '识别中...';
 
-                const response = await fetch(`${window.SERVER_IP}/predict/`,{
-                    method:'POST',
-                    body: formData,
-                });
-                const data = await response.json();
+                try {
+                    const response = await fetch(`${window.SERVER_IP}/predict/`,{
+                        method:'POST',
+                        body: formData,
+                    });
+                    const data = await response.json();
+                    console.log("后端返回：",data);
 
-                document.getElementById('result').innerText = JSON.stringify(data.detections,null,2);
-                document.getElementById('output').src = `${window.SERVER_IP}/${data.result_image}`;
-                document.getElementById('output').style.display = 'block';
+                    document.getElementById("result").innerText =JSON.stringify(data.detections, null, 2);
+
+                    if (data.result_img) {
+                        // 后端返回的是本地路径，不能直接用，需要处理掉前面的 "./project"
+                        const cleaned = data.result_img.replace("./project", "");
+
+                        document.getElementById("output").src =`${window.SERVER_IP}${cleaned}`;
+                        document.getElementById("output").style.display = "block";
+                        }
+                    }catch (error) {
+                    console.error(error);
+                    document.getElementById("result").innerText = "识别失败";
+                }
             }
         </script>
     </body>
