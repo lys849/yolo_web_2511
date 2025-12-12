@@ -41,15 +41,12 @@
                     document.getElementById("result").innerText =JSON.stringify(data.detections, null, 2);
 
                     if (data.result_img) {
-                        // 后端返回的是本地路径，不能直接用，需要处理掉前面的 "./project"
-                        const cleaned = data.result_img.replace("./project", "");
-
-                        document.getElementById("output").src =`${window.SERVER_IP}${cleaned}`;
+                        document.getElementById("output").src =`${window.SERVER_IP}${data.result_img}`;
                         document.getElementById("output").style.display = "block";
                         }
                     }catch (error) {
-                    console.error(error);
-                    document.getElementById("result").innerText = "识别失败";
+                        console.error(error);
+                        document.getElementById("result").innerText = "识别失败";
                 }
             }
         </script>

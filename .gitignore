@@ -6,3 +6,5 @@ datasets
 yolov8n.pt
 static
 project/model/weights
+project/model/__pycache__
+project/backward/__pycache__
