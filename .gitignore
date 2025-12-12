@@ -3,3 +3,6 @@ runs
 yolo11n-cls.pt
 yolo11n.pt
 datasets
+yolov8n.pt
+static
+project/model/weights
