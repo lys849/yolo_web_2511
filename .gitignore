@@ -8,3 +8,4 @@ static
 project/model/weights
 project/model/__pycache__
 project/backward/__pycache__
+project/frontend/node_modules
