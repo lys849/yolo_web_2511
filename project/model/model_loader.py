@@ -63,7 +63,7 @@ class ModelLoader:
 
         # 下载预训练模型
         print(f"⬇ 本地模型不存在，下载预训练模型...")
-        pretrained_model = YOLO("yolov8n.pt")
+        pretrained_model = YOLO("yolo11n.pt")
         pretrained_model.save(str(self.model_path))
         print(f"✓ 预训练模型已保存到: {self.model_path}")
 

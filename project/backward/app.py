@@ -3,6 +3,8 @@
 # 接受图片
 # 调用模型接口
 # 返回图片
+# 启动服务
+# python -m uvicorn project.backward.app:app --reload
 
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse, FileResponse
