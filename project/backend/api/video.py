@@ -14,7 +14,7 @@ router = APIRouter(prefix="/video", tags=["video"])
 UPLOAD_DIR = "./project/backend/temp/uploads"
 RESULT_DIR = "./project/backend/static/results/video"
 
-# 内存任务表（MVP 阶段足够）
+# 内存任务表
 video_tasks = {}
 
 

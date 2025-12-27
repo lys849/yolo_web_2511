@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 
 from project.backend.api.image import router as image_router
 from project.backend.api.video import router as video_router
+from project.backend.utils.cleanup import cleanup_old_files
 
 app = FastAPI(title="YOLO Detection API")
 
@@ -33,4 +34,13 @@ app.include_router(video_router)
 def read_root():
     return {"message": "YOLO detection API running."}
 
-
+@app.on_event("startup")
+def startup_cleanup():
+    cleanup_old_files(
+        {
+            "./project/backend/static/results/video",
+            "./project/backend/static/results/img",
+            "./project/backend/temp/uploads",
+        },
+        max_age_seconds=24 * 3600
+    )

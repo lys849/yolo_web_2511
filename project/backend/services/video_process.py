@@ -81,4 +81,3 @@ def process_video(
     except Exception as e:
         task_store[task_id]["status"] = "error"
         task_store[task_id]["error"] = str(e)
-
