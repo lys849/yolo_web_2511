@@ -17,25 +17,27 @@ import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
-
+  document.body.classList.add('home-page');
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-6">
-      <h1 className="text-4xl font-bold">YOLO 推理平台</h1>
-      <p className="text-gray-600">请选择推理模式</p>
+    <div className="container">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6">
+        <h1 className="text-4xl font-bold">YOLO 推理平台</h1>
+        <p className="text-gray-600">请选择推理模式</p>
 
-      <button
-        className="px-6 py-3 bg-blue-600 text-white rounded-lg"
-        onClick={() => navigate("/image")}
-      >
-        图片物品检测
-      </button>
-     <br />
-      <button
-        className="px-6 py-3 bg-green-600 text-white rounded-lg"
-        onClick={() => navigate("/video")}
-      >
-        视频物品检测
-      </button>
+        <button
+          className="px-6 py-3 bg-blue-600 text-white rounded-lg"
+          onClick={() => navigate("/image")}
+          >
+          图片物品检测
+        </button>
+        <br />
+        <button
+          className="px-6 py-3 bg-green-600 text-white rounded-lg"
+          onClick={() => navigate("/video")}
+          >
+          视频物品检测
+        </button>
+      </div>
     </div>
   );
 }
