@@ -15,10 +15,10 @@ export default function ResultView({ result }) {
                 className="border rounded max-w-full"
             />
 
-            <h3 className="text-lg font-semibold mt-4">Detections</h3>
+            {/* <h3 className="text-lg font-semibold mt-4">Detections</h3>
             <pre className="bg-gray-100 p-4 rounded text-sm">
                 {JSON.stringify(result.detections, null, 2)}
-            </pre>
+            </pre> */}
         </div>
     );
 }

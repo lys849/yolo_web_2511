@@ -35,6 +35,9 @@ def process_video(
         fourcc = cv2.VideoWriter_fourcc(*"avc1")
         writer = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
+        font_scale = min(width, height) * 0.001 
+        thickness = max(int(font_scale * 2), 1)
+
         while True:
             ret, frame = cap.read()
             if not ret:
@@ -42,23 +45,32 @@ def process_video(
 
             results = model(frame)
 
-            for box in results[0].boxes:
-                x1, y1, x2, y2 = map(int, box.xyxy[0])
-                label = model.names[int(box.cls)]
-                conf = float(box.conf)
+            # for box in results[0].boxes:
+            #     x1, y1, x2, y2 = map(int, box.xyxy[0])
+            #     label = f"{model.names[int(box.cls)]} {float(box.conf):.2f}"
 
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                cv2.putText(
-                    frame,
-                    f"{label} {conf:.2f}",
-                    (x1, y1 - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.5,
-                    (0, 255, 0),
-                    2,
-                )
+            #     # 2. 画框
+            #     cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), thickness)
 
-            writer.write(frame)
+            #     # 3. 动态调整文字位置 (防止文字超出画面顶部)
+            #     text_y = y1 - 10 if y1 - 10 > 10 else y1 + 20
+
+            #     # 4. 绘制文字
+            #     cv2.putText(
+            #         frame,
+            #         label,
+            #         (x1, text_y),
+            #         cv2.FONT_HERSHEY_SIMPLEX,
+            #         font_scale,    # 动态大小
+            #         (0, 255, 0),
+            #         thickness,     # 动态粗细
+            #     )
+            
+            # results[0].plot() 会返回一个画好了框和标签的 numpy 数组 (BGR)
+            # line_width 参数可以控制框的粗细，字体会自动随之缩放
+            annotated_frame = results[0].plot(line_width=3)
+
+            writer.write(annotated_frame)
 
         cap.release()
         writer.release()

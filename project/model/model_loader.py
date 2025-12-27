@@ -63,7 +63,7 @@ class ModelLoader:
 
         # 下载预训练模型
         print(f"⬇ 本地模型不存在，下载预训练模型...")
-        pretrained_model = YOLO("yolo11n.pt")
+        pretrained_model = YOLO("yolo11m.pt")
         pretrained_model.save(str(self.model_path))
         print(f"✓ 预训练模型已保存到: {self.model_path}")
 
@@ -83,8 +83,16 @@ class ModelLoader:
         """
         if self.model is None:
             self.load_model()
+        
+        default_kwargs = dict(
+            conf=0.15, 
+            iou=0.45,
+            imgsz=960,
+            verbos=False
+        )
 
-        return self.model(image_input, **kwargs)
+        default_kwargs.update(kwargs)
+        return self.model(image_input, **default_kwargs)
 
     def get_model_info(self) -> Dict:
         """获取模型信息"""
