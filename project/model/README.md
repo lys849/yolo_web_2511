@@ -130,3 +130,13 @@ pretrained_model = YOLO("yolov8m.pt")  # 改为 medium 版本
 - **单例模式**：模型只加载一次，提高应用性能
 - **懒加载**：模型在第一次使用时才加载，加快应用启动速度
 - **缓存机制**：已加载的模型会缓存在内存中，避免重复加载
+
+## 模块 API 快览（便于在报告中引用）
+
+- `ModelLoader(model_dir=None, model_name='best.pt')`：构造器，`model_dir` 默认为 `project/model/weights`。
+- `ModelLoader.load_model(use_pretrained=True)`：加载模型；若本地不存在且 `use_pretrained=True`，会下载 `yolov8n.pt` 并保存为 `best.pt`。
+- `ModelLoader.predict(image_input, **kwargs)`：执行推理，`image_input` 可为文件路径、PIL Image 或 numpy array。
+- `ModelLoader.get_model_info()`：返回模型路径、是否存在、大小、类别名称等信息。
+- `get_model(model_dir=None, model_name='best.pt')`：全局单例获取函数，推荐在后端直接调用以避免重复加载。
+
+在报告中引用这些函数名与示例调用可以帮助审阅者快速定位实现代码。

@@ -34,7 +34,7 @@ export default function Home() {
         className="px-6 py-3 bg-green-600 text-white rounded-lg"
         onClick={() => navigate("/video")}
       >
-        视频物品检测（开发中）
+        视频物品检测
       </button>
     </div>
   );

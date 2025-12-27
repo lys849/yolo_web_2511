@@ -1,73 +1,40 @@
 # React + TypeScript + Vite
+# 前端（project/frontend）说明
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+本 README 说明前端代码在本项目中如何与后端交互、关键组件职责以及如何在本地运行和调试。
 
-Currently, two official plugins are available:
+目录概览（重要文件）：
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `project/frontend/package.json`：前端依赖与脚本（`npm run dev` 启动开发服务器）。
+- `project/frontend/src/api/client.js`：封装与后端通信的接口，用于发送 `/predict/` 请求并处理返回。
+- `project/frontend/src/components/UploadArea.jsx`：图片/视频上传组件，负责构造 `FormData` 并触发上传。
+- `project/frontend/src/components/ResultView.jsx`：展示检测结果（检测列表、结果图像）。
+- `project/frontend/src/pages/ImageDetect.jsx`：页面级组件，组合上传与结果展示。
 
-## React Compiler
+主要工作流（简述，适合写入报告）：
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. 用户在 UI 中选择图片或视频。
+2. `UploadArea` 将文件放入 `FormData`，调用 `client.js` 中的 POST 接口发送到 `/predict/`（或 `/predict/video`）。
+3. 后端返回 JSON，包含 `detections`（类别、置信度、bbox）和 `result_img`（静态 URL，例如 `/static/results/xxx.jpg`）。
+4. `ResultView` 渲染检测列表并把 `result_img` 作为 `<img>` 的 `src` 显示。
 
-## Expanding the ESLint configuration
+运行与调试
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd project/frontend
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+注意事项
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- 开发时请确保后端服务已启动并可被前端访问（同机开发默认 `http://localhost:8000`）。
+- 若前端配置了 `window.SERVER_IP` 或类似全局变量，请确保其指向后端基础 URL（例如 `http://127.0.0.1:8000`）。
+- 前端组件依赖 `result_img` 返回 `/static/...` 路径；后端必须挂载静态目录（例如 FastAPI 的 `app.mount('/static', StaticFiles(...))`）。
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+建议在报告中引用的前端内容
+
+- 上传和展示流程图（一张图表示交互步骤）。
+- 关键组件的代码片段（`UploadArea` 如何构造 `FormData`、`client.js` 中如何处理响应）。
+
+若需要，我可以额外提取 `UploadArea.jsx` 与 `ResultView.jsx` 的关键代码片段并嵌入到报告中。
