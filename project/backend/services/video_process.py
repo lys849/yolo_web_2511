@@ -35,14 +35,13 @@ def process_video(
         fourcc = cv2.VideoWriter_fourcc(*"avc1")
         writer = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
-        font_scale = min(width, height) * 0.001 
-        thickness = max(int(font_scale * 2), 1)
+        # font_scale = min(width, height) * 0.001 
+        # thickness = max(int(font_scale * 2), 1)
 
         while True:
             ret, frame = cap.read()
             if not ret:
                 break
-
             results = model(frame)
 
             # for box in results[0].boxes:

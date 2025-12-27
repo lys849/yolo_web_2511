@@ -36,11 +36,11 @@ def read_root():
 
 @app.on_event("startup")
 def startup_cleanup():
-    cleanup_old_files(
-        {
-            "./project/backend/static/results/video",
+    paths=["./project/backend/static/results/video",
             "./project/backend/static/results/img",
-            "./project/backend/temp/uploads",
-        },
-        max_age_seconds=24 * 3600
-    )
+            "./project/backend/temp/uploads"]
+    for path in paths:
+        cleanup_old_files(
+            directory=path,
+            max_age_seconds=24 * 3600
+        )
