@@ -1,13 +1,21 @@
 // import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import './App.css'
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
+import ImageDetect from "./pages/ImageDetect.jsx";
+import VideoDetect from "./pages/VideoDetect.jsx";
 
-function App() {
-  return <Home />;
+export default function App() {
+  return (
+    <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/image" element={<ImageDetect />} />
+          <Route path="/video" element={<VideoDetect />} />
+        </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App;
 

@@ -11,7 +11,7 @@ export default function UploadArea({ onResult }) {
         formData.append("file", image);
 
         try {
-            const res = await client.post("/predict/", formData, {
+            const res = await client.post("/image/predict/", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
